@@ -57,6 +57,26 @@ RSpec.describe User, type: :model do
   end
 
   # Тест на отклонение повторяющихся адресов электронной почты.
+  describe "when email address is already taken" do
+    before do
+      user_with_same_email = @user.dup # оздании пользователя с тем же адресом электронной почты, что и у @user
+      # @user.dup, который создает дубликат пользователя с теми же атрибутами
+      user_with_same_email.save # затем сохраняем этого пользователя
+    end
+    it { should_not be_valid } #  @user будет иметь адрес электронной почты который уже существует в базе данных и,
+                               # следовательно, он не должен быть валидным
+  end
+  # тест на отклонение дублирующихся адресов электронной почты.
+  describe "when email address is already taken" do
+    before do
+      user_with_same_email = @user.dup
+      user_with_same_email.email = @user.email.upcase # upcase метод на строках (Прописными буквами)
+      user_with_same_email.save
+    end
+    it { should_not be_valid }
+  end
+
+
 
 
 end

@@ -20,14 +20,16 @@ gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'zeus', '~> 0.15.14'
+gem 'pg', '0.15.1'
+gem 'rails_12factor', '0.0.2'
 
 
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'sqlite3'
   gem 'rspec-rails'
   gem 'rspec'
   gem 'guard-rspec'
+  gem 'better_errors', '~> 2.3'
 end
 
 group :test do
@@ -40,11 +42,6 @@ group :doc do
   gem 'sdoc', '0.3.20', require: false
 end
 
-group :production do
-  gem 'pg', '0.15.1'
-  gem 'rails_12factor', '0.0.2'
-end
-
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '~> 3.0.5'
@@ -54,4 +51,4 @@ group :development do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+#gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
