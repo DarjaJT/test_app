@@ -13,6 +13,8 @@
 <div class="container">
   <%= yield %>
   <%= render 'layouts/footer' %>
+  <%= debug(params) if Rails.env.development? %> <!-- Это отображает некоторую полезную информацию о каждой странице -->
+  <!-- if Rails.env.development? - Что бы не показывать отладочную информацию пользователял развернутого приложения -->
 </div>
 </body>
 </html>
