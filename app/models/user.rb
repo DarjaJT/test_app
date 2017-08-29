@@ -8,8 +8,12 @@ class User < ApplicationRecord
   # Валидация емаила. обеспечивает допустимость адресов электронной почты соответствующих образцу,
   # все остальные будут считаться недопустимыми.
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
+  validates :email, presence: true,
+            format: { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false } # Валидация уникальности адресов электронной почты
-  # Что бы пройти тест :uniqueness должно быть true.
+                                                  # Что бы пройти тест :uniqueness должно быть true.
+
+  has_secure_password # Код необходимый для прохождения начальных тестов пароля.
+  validates :password, length: { minimum: 6 } # минимальная длинна пароля 6 знаков
 
 end
