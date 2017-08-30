@@ -16,7 +16,7 @@ class User < ApplicationRecord
             uniqueness: { case_sensitive: false } # Валидация уникальности адресов электронной почты
                                                   # Что бы пройти тест :uniqueness должно быть true.
 
-  # has_secure_password # Код необходимый для прохождения начальных тестов пароля.
+  has_secure_password # Код необходимый для прохождения начальных тестов пароля.
   validates :password, length: { minimum: 6 } # минимальная длинна пароля 6 знаков
 
 end

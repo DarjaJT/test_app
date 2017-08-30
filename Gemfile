@@ -31,6 +31,7 @@ group :development, :test do
   gem 'rspec'
   gem 'guard-rspec'
   gem 'better_errors', '~> 2.3'
+  gem 'binding_of_caller'
 end
 
 group :test do
