@@ -12,8 +12,10 @@
 <%= render 'layouts/header' %>
 <div class="container">
   <% flash.each do |key, value| %> <!-- отображение содержимого флэш повсеместно на сайте --->
-      <div class="alert alert-<%= key %>"><%= value %></div><!-- организует вставку каждого флэш элемента в div тег, с CSS классом, указывающим на тип сообщения --->
+      <!--<div class="alert alert-<%= key %>"><%= value %></div>&lt;!&ndash; организует вставку каждого флэш элемента в div тег, с CSS классом, указывающим на тип сообщения -&ndash;&gt;-->
+      <%= content_tag(:div, value, class: "alert alert-#{key}") %>
   <% end %>
+
   <%= yield %>
   <%= render 'layouts/footer' %>
   <%= debug(params) if Rails.env.development? %> <!-- Это отображает некоторую полезную информацию о каждой странице -->
