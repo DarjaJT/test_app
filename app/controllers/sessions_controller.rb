@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:session][:password]) # authenticate возвращает false для невалидной аутентификации
      # && (логическое и) для определения валидности полученного пользователя.
       # Убработка удачного входа
-      sign_in user # после успешного входа, мы впускаем пользователя, используя функцию sign_in
+      sign_in user # после успешного входа, мы впускаем пользователя, используя функцию sign_in (sessions_helper.rb)
       redirect_to user # затем перенаправляем его на страницу профиля
     else
       # Обработка неудачного входа
@@ -22,6 +22,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy # Выход из сайт
+    sign_out #  sessions_helper.rb
+    redirect_to root_url
   end
 
 

@@ -22,6 +22,13 @@ RSpec.describe User, type: :model do
   it { should be_valid } # проверка на то что объект @user изначально валиден
   # it { should respond_to(:authenticate) } # объект User должен отвечать на authenticate
 
+  # Тест на валидный (не пустой) remember token.
+  describe "remember token" do
+    before { @user.save }
+    it(:remember_token) { should_not be_blank }
+  end
+
+
   describe "when name is not present" do # Тест на наличие атрибута (Поле не долно быть пустым)
     before { @user.name = " " } # назначает пользовательскому имени недопустимое значение,
     it { should_not be_valid } # затем проверяет что получившийся объект @user невалиден
@@ -120,7 +127,7 @@ RSpec.describe User, type: :model do
       let(:user_for_invalid_password) { found_user.authenticate("invalid") }
 
       it { should_not eq user_for_invalid_password }
-      specify { expect(user_for_invalid_password).to be_false } # метод specify. Это просто синоним для it,
+      specify { expect(user_for_invalid_password).to be_falsey } # метод specify. Это просто синоним для it,
                                                 # который может быть использован когда it звучит ненатурально
     end
   end

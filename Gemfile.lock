@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/bmabey/database_cleaner.git
+  revision: f1e71657936ad177e19032b9b5efbda28543d0d0
+  specs:
+    database_cleaner (1.6.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -71,6 +77,22 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    cucumber (2.4.0)
+      builder (>= 2.1.2)
+      cucumber-core (~> 1.5.0)
+      cucumber-wire (~> 0.0.1)
+      diff-lcs (>= 1.1.3)
+      gherkin (~> 4.0)
+      multi_json (>= 1.7.5, < 2.0)
+      multi_test (>= 0.1.2)
+    cucumber-core (1.5.0)
+      gherkin (~> 4.0)
+    cucumber-rails (1.4.0)
+      capybara (>= 1.1.2)
+      cucumber (>= 1.2.0)
+      nokogiri (>= 1.5.0)
+      rails (>= 3.0.0)
+    cucumber-wire (0.0.1)
     debug_inspector (0.0.3)
     diff-lcs (1.3)
     erubi (1.6.1)
@@ -83,6 +105,7 @@ GEM
       railties (>= 3.0.0)
     ffi (1.9.18)
     formatador (0.2.5)
+    gherkin (4.1.3)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     guard (2.14.1)
@@ -124,6 +147,7 @@ GEM
     mini_portile2 (2.2.0)
     minitest (5.10.3)
     multi_json (1.12.1)
+    multi_test (0.1.2)
     nenv (0.3.0)
     nio4r (2.1.0)
     nokogiri (1.8.0)
@@ -266,6 +290,8 @@ DEPENDENCIES
   byebug
   capybara (~> 2.15, >= 2.15.1)
   coffee-rails (~> 4.2)
+  cucumber-rails (= 1.4.0)
+  database_cleaner!
   factory_girl_rails (= 4.2.1)
   guard-rspec
   jbuilder (~> 2.5)

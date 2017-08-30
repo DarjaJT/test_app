@@ -40,6 +40,13 @@ RSpec.describe "AuthenticationPages", type: :feature do
       # убеждается в том что якорный тег a имеет правильный атрибут href (URL) — в данном случае, ссылку на страницу профиля пользователя.
       it { should have_link('Sign out',    href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
+
+      # Тест выхода пользователя.
+      describe "followed by signout" do
+        before { click_link "Sign out" }
+        it { should have_link('Sign in') }
+      end
+
     end
 
   end

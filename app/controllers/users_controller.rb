@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   def create  # Метод обрабатывающий форму регитсрации пользователей
     @user = User.new(user_params) # Использование строгих параметровç
     if @user.save # true - если успешно сохранение
+      sign_in @user  #  Вход пользователя сразу после регистрации
       flash[:success] = "Welcome to the Sample App!" # Добавление флеш сообщения к успешной регистрации пользователя.
       redirect_to @user # Переадресация на страницу показывающую пользователя
     else # Если валидация формы не прошла
