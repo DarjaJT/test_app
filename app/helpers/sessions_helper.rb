@@ -25,11 +25,29 @@ module SessionsHelper
     # возвращается @current_user без обращения к базе данных
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
+
   def sign_out # Метод выхода из сайта
     current_user.update_attribute(:remember_token,
                                   User.encrypt(User.new_remember_token))
     cookies.delete(:remember_token)
     self.current_user = nil
   end
+
+  # Код реализующий дружественную переадресацию.
+  def redirect_back_or(default)
+    redirect_to(session[:return_to] || default)
+    session.delete(:return_to)
+  end
+
+  # Метод store_location помещает запрашиваемый URL в переменную session под ключом :return_to, но
+  # только для GET запроса (if request.get?). Это предотвращает сохранение URL для перенаправления
+  def store_location
+    session[:return_to] = request.url if request.get?
+  end
+
 
 end

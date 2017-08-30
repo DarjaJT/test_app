@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :signed_in_user, only: [:edit, :update]
+  before_action :correct_user,   only: [:edit, :update]
+
   def new
     @user = User.new
   end
@@ -18,10 +21,39 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit # Для страницы редактирования
+    @user = User.find(params[:id])
+  end
+
+  def update # Для страницы редактирования
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params) # user_params в вызове update_attributes - параметры для предотвращения уязвимости массового назначения
+      flash[:success] = "Profile updated"
+      redirect_to @user
+    else # Провальное редактирование
+      render 'edit'
+    end
+  end
+
   private # user_params - будет использоваться только в нутри контроллера
   # Использование строгих параметров в действии create
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  # Добавление предфильтра signed_in_user.  Защита от не авторизованных пользователей
+  def signed_in_user
+    unless signed_in? # sessions_helper.rb
+      store_location
+      redirect_to signin_url, notice: "Please sign in."
+    end
+  end
+
+  # Предфильтр correct_user для защиты edit/update pages
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless current_user?(@user) # метод current_user?, который мы определили в хелпере Sessions
+   # current_user? - sessions_helper.rb
   end
 
 end
