@@ -18,6 +18,8 @@ RSpec.describe User, type: :model do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) } # Уникальный, безопасный ид для куки браузера
   it { should respond_to(:authenticate) } # объект User должен отвечать на authenticate
+  it { should respond_to(:admin) }
+  it { should respond_to(:microposts) } # Тест на наличие атрибута пользовательских microposts
 
   it { should be_valid } # проверка на то что объект @user изначально валиден
   # it { should respond_to(:authenticate) } # объект User должен отвечать на authenticate
@@ -140,6 +142,32 @@ RSpec.describe User, type: :model do
       @user.email = mixed_case_email
       @user.save
       expect(@user.reload.email).to eq mixed_case_email.downcase
+    end
+  end
+
+  # Тестирование порядка микросообщений пользователя
+  describe "micropost associations" do
+
+    before { @user.save }
+    let!(:older_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.day.ago)
+    end
+    let!(:newer_micropost) do
+      FactoryGirl.create(:micropost, user: @user, created_at: 1.hour.ago)
+    end
+
+    it "should have the right microposts in the right order" do
+      expect(@user.microposts.to_a).to eq [newer_micropost, older_micropost]
+    end
+
+    # Тестирование того, что микросообщения уничтожаются вместе с пользователями.
+    it "should destroy associated microposts" do
+      microposts = @user.microposts.to_a
+      @user.destroy
+      expect(microposts).not_to be_empty
+      microposts.each do |micropost|
+        expect(Micropost.where(id: micropost.id)).to be_empty
+      end
     end
   end
 

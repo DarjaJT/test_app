@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # before_save { self.email = email.downcase } # в нижний регистр email атрибут перед сохранением пользователя в базу данных
   # has_secure_password
+  has_many :microposts, dependent: :destroy # Пользователь имеет_много микросообщений.
+
   before_save { self.email = email.downcase } # Альтернативная реализация before_save.
   before_create :create_remember_token # метод обратного вызова для создания remember token
   # before_save { email.downcase! } # Альтернативная реализация before_save.
@@ -28,6 +30,13 @@ class User < ApplicationRecord
   def User.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s) # мы шифровали токен с помощью SHA1 - хэширующего алгоритма
   end
+
+  def feed # реализация потока микросообщений
+    # Это предварительное решение. См. полную реализацию в "Following users".
+    Micropost.where("user_id = ?", id)
+  end
+
+
 
   private # Все методы, определенные в классе после private автоматически становятся скрытыми
 

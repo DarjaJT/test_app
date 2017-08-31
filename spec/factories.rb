@@ -9,4 +9,9 @@ FactoryGirl.define do # Добавление фабрики для админи�
       admin true
     end
   end
+
+  factory :micropost do
+    content "Lorem ipsum"
+    user
+  end
 end

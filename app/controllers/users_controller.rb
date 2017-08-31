@@ -13,6 +13,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id]) # params для получения id пользователя
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def create  # Метод обрабатывающий форму регитсрации пользователей

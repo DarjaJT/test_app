@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   # get 'users/new'
   resources :users # Получаем REST-style Users URL на работу
   resources :sessions, only: [:new, :create, :destroy] # Добавление ресурса для получения стандартных RESTful действий для сессий.
+  resources :microposts, only: [:create, :destroy] # Маршруты для ресурса Microposts.
 
   root  'static_pages#home'  # начальная страницы сайта
   match '/signup',  to: 'users#new',            via: 'get' # Страница регистрации
