@@ -1,8 +1,12 @@
-FactoryGirl.define do
-  factory :user do # последующее определение предназначено для объекта модели User
-    name     "Michael Hartl"
-    email    "michael@example.com"
+FactoryGirl.define do # Добавление фабрики для административных пользователей.
+  factory :user do
+    sequence(:name)  { |n| "Person #{n}" }
+    sequence(:email) { |n| "person_#{n}@example.com"}
     password "foobar"
     password_confirmation "foobar"
+
+    factory :admin do
+      admin true
+    end
   end
 end

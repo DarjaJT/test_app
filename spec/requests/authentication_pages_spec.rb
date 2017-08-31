@@ -29,13 +29,15 @@ RSpec.describe "AuthenticationPages", type: :feature do
     #  Тесты успешного входа.
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
-      before do
-        fill_in "Email",    with: user.email.upcase # upcase - для того чтобы быть уверенными в том что наша способность находить пользователя в базе данных не зависит от регистра
-        fill_in "Password", with: user.password
-        click_button "Sign in"
-      end
+      before { sign_in user }
+      # before do
+      #   fill_in "Email",    with: user.email.upcase # upcase - для того чтобы быть уверенными в том что наша способность находить пользователя в базе данных не зависит от регистра
+      #   fill_in "Password", with: user.password
+      #   click_button "Sign in"
+      # end
 
       it { should have_title(user.name) }
+      it { should have_link('Users',       href: users_path) } #  Тест для URL ссылки “Users”
       it { should have_link('Profile',     href: user_path(user)) } # have_link - Он принимает в качестве аргументов текст ссылки и необязательный параметр :href
       # убеждается в том что якорный тег a имеет правильный атрибут href (URL) — в данном случае, ссылку на страницу профиля пользователя.
       it { should have_link('Sign out',    href: signout_path) }
@@ -86,6 +88,13 @@ RSpec.describe "AuthenticationPages", type: :feature do
           before { patch user_path(user) }
           specify { expect(response).to redirect_to(signin_path) }
         end
+
+        # Тестирование того, что действие index защищено.
+        describe "visiting the user index" do
+          before { visit users_path }
+          it { should have_title('Sign in') }
+        end
+
       end
     end
 
