@@ -1,15 +1,20 @@
 <% provide(:title, @user.name) %>
 <div class="row">
-  <aside class="span4">
-    <section>
-      <h1>
-        <%= gravatar_for @user %>
-        <%= @user.name %>
-      </h1>
+    <aside class="span4">
+      <section>
+        <h1>
+          <%= gravatar_for @user %>
+          <%= @user.name %>
+        </h1>
+      </section>
+      <section>
+      <!-- Добавление формы слежения за сообщениями пользователя и статистики на страницу профиля пользователя. -->
+      <%= render 'shared/stats' %>
     </section>
   </aside>
 
   <div class="span8">
+    <%= render 'follow_form' if signed_in? %>
     <% if @user.microposts.any? %>
         <h3>Microposts (<%= @user.microposts.count %>)</h3> <!-- Текущее количество микро сообщений-->
         <ol class="microposts">
@@ -18,5 +23,4 @@
         <%= will_paginate @microposts %>
     <% end %>
   </div>
-
 </div>

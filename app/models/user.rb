@@ -2,6 +2,11 @@ class User < ApplicationRecord
   # before_save { self.email = email.downcase } # в нижний регистр email атрибут перед сохранением пользователя в базу данных
   # has_secure_password
   has_many :microposts, dependent: :destroy # Пользователь имеет_много микросообщений.
+  has_many :relationships, foreign_key: "follower_id", dependent: :destroy # Читаемые пользователи
+  has_many :followed_users, through: :relationships, source: :followed # ассоциации followed_users.
+  # Реализация user.followers использующая реверсированные взаимоотношения.
+  has_many :reverse_relationships, foreign_key: "followed_id", class_name:  "Relationship", dependent:   :destroy
+  has_many :followers, through: :reverse_relationships, source: :follower
 
   before_save { self.email = email.downcase } # Альтернативная реализация before_save.
   before_create :create_remember_token # метод обратного вызова для создания remember token
@@ -32,10 +37,22 @@ class User < ApplicationRecord
   end
 
   def feed # реализация потока микросообщений
-    # Это предварительное решение. См. полную реализацию в "Following users".
-    Micropost.where("user_id = ?", id)
+    # Micropost.where("user_id = ?", id)
+    Micropost.from_users_followed_by(self)
   end
 
+  def following?(other_user)
+    relationships.find_by(followed_id: other_user.id)
+  end
+
+  def follow!(other_user)
+    relationships.create!(followed_id: other_user.id)
+  end
+
+  # Прекращение слежения за сообщениями пользователя посредством уничтожения взаимоотношения.
+  def unfollow!(other_user)
+    relationships.find_by(followed_id: other_user.id).destroy!
+  end
 
 
   private # Все методы, определенные в классе после private автоматически становятся скрытыми
